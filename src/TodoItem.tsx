@@ -12,13 +12,21 @@ type TodoTypes = {
   completed: boolean;
 };
 
-export default function TodoItem(todo: TodoTypes) {
+type TodoItemProps = {
+  todo: TodoTypes;
+  remove: (id: number) => void;
+  toggle: (id: number) => void;
+};
+
+export default function TodoItem({ todo, remove, toggle }: TodoItemProps) {
   const labelId = `checkbox-list-value-${todo.id}`;
+  const removeTodo = () => {
+    remove(todo.id);
+  };
   return (
     <ListItem
-      key={todo.id}
       secondaryAction={
-        <IconButton edge="end" aria-label="comments">
+        <IconButton edge="end" aria-label="comments" onClick={removeTodo}>
           <CommentIcon />
         </IconButton>
       }
@@ -31,6 +39,7 @@ export default function TodoItem(todo: TodoTypes) {
             checked={todo.completed}
             tabIndex={-1}
             disableRipple
+            onChange={() => toggle(todo.id)}
             inputProps={{ "aria-labelledby": labelId }}
           />
         </ListItemIcon>
@@ -39,3 +48,5 @@ export default function TodoItem(todo: TodoTypes) {
     </ListItem>
   );
 }
+
+export type { TodoTypes };
