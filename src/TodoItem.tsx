@@ -5,6 +5,7 @@ import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import CommentIcon from "@mui/icons-material/Comment";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 type TodoTypes = {
   id: number;
@@ -27,7 +28,13 @@ export default function TodoItem({ todo, remove, toggle }: TodoItemProps) {
     <ListItem
       secondaryAction={
         <IconButton edge="end" aria-label="comments" onClick={removeTodo}>
-          <CommentIcon />
+          <DeleteForeverIcon
+            sx={{
+              "&:hover": {
+                color: "red",
+              },
+            }}
+          />
         </IconButton>
       }
       disablePadding
