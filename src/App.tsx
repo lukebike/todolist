@@ -37,13 +37,13 @@ function App() {
           <CssBaseline />
           <Box display="flex" sx={{ margin: 3, alignItems: "center" }}>
             <Typography variant="body1" sx={{ marginLeft: 3 }}>
-              {mode === "dark" ? "dark mode" : "light mode"}
+              {mode === "dark" ? "light mode" : "dark mode"}
             </Typography>
             <Button
               onClick={() => setMode(mode === "dark" ? "light" : "dark")}
               sx={{ margin: 0, padding: 0 }}
             >
-              {mode === "dark" ? <DarkModeIcon /> : <LightModeIcon />}
+              {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
             </Button>
           </Box>
           <TodoLists />

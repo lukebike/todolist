@@ -60,7 +60,17 @@ export default function TodoLists() {
           value={listName}
           onChange={(e) => setListName(e.target.value)}
         />
-        <Button onClick={addList} variant="contained" sx={{ ml: 2 }}>
+        <Button
+          onClick={addList}
+          variant="contained"
+          sx={{
+            ml: 2,
+            color: "white",
+            "&:hover": {
+              color: "black",
+            },
+          }}
+        >
           Add New List
         </Button>
       </Box>
