@@ -2,7 +2,14 @@ import { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import TodoForm from "./TodoForm";
 import List from "@mui/material/List";
-import { Box, Typography, useTheme } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { Box, Typography, IconButton, useTheme } from "@mui/material";
+
+type TodoListProps = {
+  listId: number;
+  name: string;
+  removeList: (id: number) => void;
+};
 
 const initialTodos = () => {
   const data = localStorage.getItem("todos");
@@ -10,12 +17,22 @@ const initialTodos = () => {
 
   return JSON.parse(data);
 };
-export default function TodoList() {
+export default function TodoList({ listId, name, removeList }: TodoListProps) {
+  const storageKey = `todos-list-${listId}`;
+  const initialTodos = () => {
+    const data = localStorage.getItem(storageKey);
+    if (!data) return [];
+    return JSON.parse(data);
+  };
   const [todos, setTodos] = useState(initialTodos);
   const theme = useTheme();
+  // useEffect(() => {
+  //   localStorage.setItem("todos", JSON.stringify(todos));
+  // }, [todos]);
+
   useEffect(() => {
-    localStorage.setItem("todos", JSON.stringify(todos));
-  }, [todos]);
+    localStorage.setItem(storageKey, JSON.stringify(todos));
+  }, [todos, storageKey]);
 
   const removeTodo = (id: number) => {
     setTodos((prevTodos) => {
@@ -34,7 +51,6 @@ export default function TodoList() {
       });
     });
   };
-
   const addTodo = (text: string) => {
     setTodos((prevTodos) => {
       return [
@@ -56,11 +72,26 @@ export default function TodoList() {
   return (
     <Box sx={{ m: 3 }}>
       <Typography
+        variant="h6"
+        sx={{
+          color: theme.palette.primary.main,
+          textAlign: "center",
+          mb: 1,
+          fontWeight: 500,
+        }}
+      >
+        {name}{" "}
+        <IconButton onClick={() => removeList(listId)}>
+          <DeleteForeverIcon />
+        </IconButton>
+      </Typography>
+      <Typography
         variant="h5"
         sx={{
           color: theme.palette.primary.contrastText,
           textAlign: "center",
           mb: 2,
+          fontWeight: 200,
         }}
       >
         what would you like to do?

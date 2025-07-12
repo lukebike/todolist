@@ -1,9 +1,9 @@
 import { useMemo, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
-import TodoList from "./TodoList";
+import TodoLists from "./TodoLists";
 import "./App.css";
 import { lightThemeOptions, darkThemeOptions } from "./ThemeOptions.tsx";
-import { Container, createTheme, ThemeProvider } from "@mui/material";
+import { Button, Container, createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -26,8 +26,11 @@ function App() {
           }}
         >
           <CssBaseline />
-
-          <TodoList />
+          <Button onClick={() => setMode(mode === "dark" ? "light" : "dark")}>
+            CLICK ME!
+          </Button>
+          <TodoLists />
+          {/* <TodoList /> */}
         </Container>
       </ThemeProvider>
     </>

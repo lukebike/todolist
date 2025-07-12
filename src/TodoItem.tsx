@@ -43,7 +43,16 @@ export default function TodoItem({ todo, remove, toggle }: TodoItemProps) {
       }
       disablePadding
     >
-      <ListItemButton role={undefined} dense>
+      <ListItemButton
+        role={undefined}
+        dense
+        onClick={() => toggle(todo.id)}
+        sx={{
+          "&:hover": {
+            shadow: "none",
+          },
+        }}
+      >
         <ListItemIcon>
           <Checkbox
             edge="start"
@@ -51,6 +60,7 @@ export default function TodoItem({ todo, remove, toggle }: TodoItemProps) {
             tabIndex={-1}
             disableRipple
             onChange={() => toggle(todo.id)}
+            onClick={(e) => e.stopPropagation()}
             inputProps={{ "aria-labelledby": labelId }}
           />
         </ListItemIcon>
@@ -59,6 +69,7 @@ export default function TodoItem({ todo, remove, toggle }: TodoItemProps) {
           sx={{
             color: theme.palette.primary.main,
             textDecoration: isCompleted ? "line-through" : "none",
+            backgroundColor: "none",
           }}
           primary={todo.text}
         />
