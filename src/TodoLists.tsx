@@ -23,11 +23,13 @@ export default function TodoLists() {
 
   const addList = () => {
     if (!listName) return alert("List name can not be empty");
+    if (lists.length === 3) return alert("You can not have more than 3 lists");
     setLists((prev) => [...prev, { id: prev.length, name: listName }]);
     setListName("");
   };
 
   const removeList = (id: number) => {
+    localStorage.removeItem(`todos-list-${id}`);
     setLists((prev) => {
       return prev.filter((list) => list.id !== id);
     });

@@ -70,7 +70,7 @@ export default function TodoList({ listId, name, removeList }: TodoListProps) {
   // };
 
   return (
-    <Box sx={{ m: 3 }}>
+    <Box sx={{ m: 5 }}>
       <Typography
         variant="h6"
         sx={{
@@ -80,7 +80,7 @@ export default function TodoList({ listId, name, removeList }: TodoListProps) {
           fontWeight: 500,
         }}
       >
-        {name}{" "}
+        {name}
         <IconButton onClick={() => removeList(listId)}>
           <DeleteForeverIcon />
         </IconButton>
@@ -99,7 +99,6 @@ export default function TodoList({ listId, name, removeList }: TodoListProps) {
       <List
         sx={{
           width: "100%",
-          maxWidth: 360,
           bgcolor: "background.paper",
           border: `3px solid ${theme.palette.warning.main}`,
           borderRadius: "20px",

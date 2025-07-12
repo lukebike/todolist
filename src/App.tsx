@@ -1,9 +1,19 @@
 import { useMemo, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import TodoLists from "./TodoLists";
+import Footer from "./Footer.tsx";
 import "./App.css";
 import { lightThemeOptions, darkThemeOptions } from "./ThemeOptions.tsx";
-import { Button, Container, createTheme, ThemeProvider } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  createTheme,
+  ThemeProvider,
+  Typography,
+} from "@mui/material";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LightModeIcon from "@mui/icons-material/LightMode";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -20,16 +30,24 @@ function App() {
             height: "100%",
             display: "flex",
             flexDirection: "column",
-            alignContent: "center",
             alignItems: "center",
             justifyContent: "center",
           }}
         >
           <CssBaseline />
-          <Button onClick={() => setMode(mode === "dark" ? "light" : "dark")}>
-            CLICK ME!
-          </Button>
+          <Box display="flex" sx={{ margin: 3, alignItems: "center" }}>
+            <Typography variant="body1" sx={{ marginLeft: 3 }}>
+              {mode === "dark" ? "dark mode" : "light mode"}
+            </Typography>
+            <Button
+              onClick={() => setMode(mode === "dark" ? "light" : "dark")}
+              sx={{ margin: 0, padding: 0 }}
+            >
+              {mode === "dark" ? <DarkModeIcon /> : <LightModeIcon />}
+            </Button>
+          </Box>
           <TodoLists />
+          <Footer />
           {/* <TodoList /> */}
         </Container>
       </ThemeProvider>
