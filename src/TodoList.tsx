@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import TodoForm from "./TodoForm";
 import List from "@mui/material/List";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 
 const initialTodos = () => {
   const data = localStorage.getItem("todos");
@@ -12,7 +12,7 @@ const initialTodos = () => {
 };
 export default function TodoList() {
   const [todos, setTodos] = useState(initialTodos);
-
+  const theme = useTheme();
   useEffect(() => {
     localStorage.setItem("todos", JSON.stringify(todos));
   }, [todos]);
@@ -55,7 +55,12 @@ export default function TodoList() {
 
   return (
     <Box sx={{ m: 3 }}>
-      <Typography variant="h5">what would you like to do?</Typography>
+      <Typography
+        variant="h5"
+        sx={{ color: theme.palette.primary.contrastText }}
+      >
+        what would you like to do?
+      </Typography>
       <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
         {todos.map((todo) => (
           <TodoItem

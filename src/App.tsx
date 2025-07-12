@@ -1,27 +1,35 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import TodoList from "./TodoList";
 import "./App.css";
 import { lightThemeOptions, darkThemeOptions } from "./ThemeOptions.tsx";
-import { Container } from "@mui/material";
+import { Container, createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
+  const [mode, setMode] = useState<"light" | "dark">("dark");
+  const theme = useMemo(
+    () => createTheme(mode === "dark" ? darkThemeOptions : lightThemeOptions),
+    [mode]
+  );
   return (
     <>
-      <Container
-        maxWidth="lg"
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignContent: "center",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <CssBaseline />
+      <ThemeProvider theme={theme}>
+        <Container
+          maxWidth="lg"
+          style={{
+            height: "100%",
+            display: "flex",
+            flexDirection: "column",
+            alignContent: "center",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <CssBaseline />
 
-        <TodoList />
-      </Container>
+          <TodoList />
+        </Container>
+      </ThemeProvider>
     </>
   );
 }

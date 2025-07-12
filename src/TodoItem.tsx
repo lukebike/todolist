@@ -6,6 +6,7 @@ import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import CommentIcon from "@mui/icons-material/Comment";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { useTheme } from "@mui/material";
 
 type TodoTypes = {
   id: number;
@@ -20,6 +21,7 @@ type TodoItemProps = {
 };
 
 export default function TodoItem({ todo, remove, toggle }: TodoItemProps) {
+  const theme = useTheme();
   const labelId = `checkbox-list-value-${todo.id}`;
   const removeTodo = () => {
     remove(todo.id);
@@ -30,8 +32,9 @@ export default function TodoItem({ todo, remove, toggle }: TodoItemProps) {
         <IconButton edge="end" aria-label="comments" onClick={removeTodo}>
           <DeleteForeverIcon
             sx={{
+              color: theme.palette.success.main,
               "&:hover": {
-                color: "red",
+                color: theme.palette.error.main,
               },
             }}
           />
@@ -50,7 +53,11 @@ export default function TodoItem({ todo, remove, toggle }: TodoItemProps) {
             inputProps={{ "aria-labelledby": labelId }}
           />
         </ListItemIcon>
-        <ListItemText id={labelId} primary={todo.text} />
+        <ListItemText
+          id={labelId}
+          sx={{ color: theme.palette.primary.main }}
+          primary={todo.text}
+        />
       </ListItemButton>
     </ListItem>
   );
