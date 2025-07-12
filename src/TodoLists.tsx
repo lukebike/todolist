@@ -41,7 +41,7 @@ export default function TodoLists() {
             no lists found, create a new list.
           </Typography>
         )}
-        {lists.map((list, idx) => (
+        {lists.map((list) => (
           <TodoList
             key={list.id}
             listId={list.id}

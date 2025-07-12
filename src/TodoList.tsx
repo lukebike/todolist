@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import TodoItem from "./TodoItem";
+import TodoItem, { type TodoTypes } from "./TodoItem";
 import TodoForm from "./TodoForm";
 import List from "@mui/material/List";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -11,12 +11,12 @@ type TodoListProps = {
   removeList: (id: number) => void;
 };
 
-const initialTodos = () => {
-  const data = localStorage.getItem("todos");
-  if (!data) return [];
+// const initialTodos = () => {
+//   const data = localStorage.getItem("todos");
+//   if (!data) return [];
 
-  return JSON.parse(data);
-};
+//   return JSON.parse(data);
+// };
 export default function TodoList({ listId, name, removeList }: TodoListProps) {
   const storageKey = `todos-list-${listId}`;
   const initialTodos = () => {
@@ -35,14 +35,14 @@ export default function TodoList({ listId, name, removeList }: TodoListProps) {
   }, [todos, storageKey]);
 
   const removeTodo = (id: number) => {
-    setTodos((prevTodos) => {
-      return prevTodos.filter((t) => t.id !== id);
+    setTodos((prevTodos: TodoTypes[]) => {
+      return prevTodos.filter((t: TodoTypes) => t.id !== id);
     });
   };
 
   const toggleTodo = (id: number) => {
-    setTodos((prevTodos) => {
-      return prevTodos.map((todo) => {
+    setTodos((prevTodos: TodoTypes[]) => {
+      return prevTodos.map((todo: TodoTypes) => {
         if (todo.id === id) {
           return { ...todo, completed: !todo.completed };
         } else {
@@ -52,7 +52,7 @@ export default function TodoList({ listId, name, removeList }: TodoListProps) {
     });
   };
   const addTodo = (text: string) => {
-    setTodos((prevTodos) => {
+    setTodos((prevTodos: TodoTypes[]) => {
       return [
         ...prevTodos,
         { text: text, id: Math.random(), completed: false },
@@ -101,10 +101,11 @@ export default function TodoList({ listId, name, removeList }: TodoListProps) {
           width: "100%",
           maxWidth: 360,
           bgcolor: "background.paper",
-          border: `2px solid ${theme.palette.warning.main}`,
+          border: `3px solid ${theme.palette.warning.main}`,
+          borderRadius: "20px",
         }}
       >
-        {todos.map((todo) => (
+        {todos.map((todo: TodoTypes) => (
           <TodoItem
             key={todo.id}
             todo={todo}

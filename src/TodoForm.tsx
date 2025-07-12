@@ -1,10 +1,13 @@
-import { IconButton, InputAdornment, ListItem, useTheme } from "@mui/material";
+import { IconButton, InputAdornment, ListItem } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
 import CreateIcon from "@mui/icons-material/Create";
 
-export default function TodoForm({ addTodo }) {
-  const theme = useTheme();
+type TodoFormProps = {
+  addTodo: (todo: string) => void;
+};
+
+export default function TodoForm({ addTodo }: TodoFormProps) {
   const [text, setText] = useState("");
   interface ChangeEvent {
     target: { value: string };
