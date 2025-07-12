@@ -2,6 +2,7 @@ import { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import TodoList from "./TodoList";
 import "./App.css";
+import { lightThemeOptions, darkThemeOptions } from "./ThemeOptions.tsx";
 import { Container } from "@mui/material";
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
         }}
       >
         <CssBaseline />
-        <h1>Todos</h1>
+
         <TodoList />
       </Container>
     </>

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import TodoItem from "./TodoItem";
 import TodoForm from "./TodoForm";
 import List from "@mui/material/List";
+import { Box, Typography } from "@mui/material";
 
 const initialTodos = () => {
   const data = localStorage.getItem("todos");
@@ -53,16 +54,19 @@ export default function TodoList() {
   // };
 
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
-      {todos.map((todo) => (
-        <TodoItem
-          key={todo.id}
-          todo={todo}
-          remove={removeTodo}
-          toggle={toggleTodo}
-        />
-      ))}
-      <TodoForm addTodo={addTodo} />
-    </List>
+    <Box sx={{ m: 3 }}>
+      <Typography variant="h5">what would you like to do?</Typography>
+      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+        {todos.map((todo) => (
+          <TodoItem
+            key={todo.id}
+            todo={todo}
+            remove={removeTodo}
+            toggle={toggleTodo}
+          />
+        ))}
+        <TodoForm addTodo={addTodo} />
+      </List>
+    </Box>
   );
 }
