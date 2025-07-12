@@ -57,11 +57,22 @@ export default function TodoList() {
     <Box sx={{ m: 3 }}>
       <Typography
         variant="h5"
-        sx={{ color: theme.palette.primary.contrastText }}
+        sx={{
+          color: theme.palette.primary.contrastText,
+          textAlign: "center",
+          mb: 2,
+        }}
       >
         what would you like to do?
       </Typography>
-      <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+      <List
+        sx={{
+          width: "100%",
+          maxWidth: 360,
+          bgcolor: "background.paper",
+          border: `2px solid ${theme.palette.warning.main}`,
+        }}
+      >
         {todos.map((todo) => (
           <TodoItem
             key={todo.id}

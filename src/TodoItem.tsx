@@ -22,6 +22,7 @@ type TodoItemProps = {
 
 export default function TodoItem({ todo, remove, toggle }: TodoItemProps) {
   const theme = useTheme();
+  const isCompleted = todo.completed;
   const labelId = `checkbox-list-value-${todo.id}`;
   const removeTodo = () => {
     remove(todo.id);
@@ -55,7 +56,10 @@ export default function TodoItem({ todo, remove, toggle }: TodoItemProps) {
         </ListItemIcon>
         <ListItemText
           id={labelId}
-          sx={{ color: theme.palette.primary.main }}
+          sx={{
+            color: theme.palette.primary.main,
+            textDecoration: isCompleted ? "line-through" : "none",
+          }}
           primary={todo.text}
         />
       </ListItemButton>
