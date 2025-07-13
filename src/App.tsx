@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import TodoLists from "./TodoLists";
 import Footer from "./Footer.tsx";
@@ -21,6 +21,16 @@ function App() {
     () => createTheme(mode === "dark" ? darkThemeOptions : lightThemeOptions),
     [mode]
   );
+
+  useEffect(() => {
+    const favicon = document.querySelector(
+      "link[rel='icon']"
+    ) as HTMLLinkElement | null;
+    if (favicon) {
+      favicon.href = mode === "dark" ? "/icon2.png" : "/icon.png";
+    }
+  }, [mode]);
+
   return (
     <>
       <ThemeProvider theme={theme}>
