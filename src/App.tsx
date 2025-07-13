@@ -6,14 +6,13 @@ import "./App.css";
 import { lightThemeOptions, darkThemeOptions } from "./ThemeOptions.tsx";
 import {
   Box,
-  Button,
   Container,
   createTheme,
   ThemeProvider,
   Typography,
 } from "@mui/material";
 
-import ResponsiveAppBar from "./ResponsiveAppbar.tsx";
+import ResponsiveAppBar from "./ResponsiveAppBar.tsx";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
