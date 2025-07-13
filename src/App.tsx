@@ -12,8 +12,8 @@ import {
   ThemeProvider,
   Typography,
 } from "@mui/material";
-import DarkModeIcon from "@mui/icons-material/DarkMode";
-import LightModeIcon from "@mui/icons-material/LightMode";
+
+import ResponsiveAppBar from "./ResponsiveAppbar.tsx";
 
 function App() {
   const [mode, setMode] = useState<"light" | "dark">("dark");
@@ -35,16 +35,15 @@ function App() {
           }}
         >
           <CssBaseline />
+          <ResponsiveAppBar mode={mode} setMode={setMode} />
           <Box display="flex" sx={{ margin: 3, alignItems: "center" }}>
-            <Typography variant="body1" sx={{ marginLeft: 3 }}>
-              {mode === "dark" ? "light mode" : "dark mode"}
-            </Typography>
-            <Button
+            <Typography variant="body1" sx={{ marginLeft: 3 }}></Typography>
+            {/* <Button
               onClick={() => setMode(mode === "dark" ? "light" : "dark")}
               sx={{ margin: 0, padding: 0 }}
             >
               {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
-            </Button>
+            </Button> */}
           </Box>
           <TodoLists />
           <Footer />
