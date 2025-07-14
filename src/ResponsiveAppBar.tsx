@@ -40,7 +40,7 @@ export default function DrawerAppBar({
   const drawer = (
     <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
       <Typography variant="h6" sx={{ my: 2 }}>
-        Todolister
+        Planify
       </Typography>
       <Divider />
       <List>
@@ -94,7 +94,7 @@ export default function DrawerAppBar({
             component="div"
             sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
           >
-            Todolister
+            Planify
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
             <Typography variant="body1" sx={{ marginLeft: 3 }}>
