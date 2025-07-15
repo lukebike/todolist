@@ -11,12 +11,12 @@ import ListItemButton from "@mui/material/ListItemButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { useTheme } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { Menu, MenuItem } from "@mui/material";
+import { FormControl, InputLabel, Menu, MenuItem, Select } from "@mui/material";
+import { useListContext } from "./ListContext";
 
 interface ResponsiveAppBarProps {
   mode: "light" | "dark";
@@ -26,11 +26,12 @@ interface ResponsiveAppBarProps {
 
 const drawerWidth = 240;
 
-export default function DrawerAppBar({
+export default function ResponsiveAppBar({
   window,
   mode,
   setMode,
 }: ResponsiveAppBarProps) {
+  const { lists, selected, setSelected } = useListContext();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -54,8 +55,31 @@ export default function DrawerAppBar({
         Planify
       </Typography>
       <Divider />
-      <List>
-        <ListItem>
+      <List sx={{ px: 2 }}>
+        {lists.length > 0 && (
+          <ListItem disablePadding sx={{ mb: 1, mt: 2 }}>
+            <Box sx={{ width: "100%", px: 2 }}>
+              <FormControl fullWidth size="small">
+                <InputLabel>Select List</InputLabel>
+                <Select
+                  value={selected || ""}
+                  label="Select List"
+                  onChange={(e) => {
+                    setSelected(Number(e.target.value));
+                    handleDrawerToggle();
+                  }}
+                >
+                  {lists.map((list) => (
+                    <MenuItem key={list.id} value={list.id}>
+                      {list.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+            </Box>
+          </ListItem>
+        )}
+        <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
               setMode(mode === "dark" ? "light" : "dark");
@@ -65,15 +89,19 @@ export default function DrawerAppBar({
             <Box
               sx={{
                 display: "flex",
-                gap: 1,
+                alignItems: "center",
+                gap: 2,
                 width: "100%",
-                justifyContent: "center",
               }}
             >
-              <Typography variant="body1" sx={{ textTransform: "lowercase" }}>
-                {mode === "dark" ? "light mode" : "dark mode"}
+              {mode === "dark" ? (
+                <LightModeIcon sx={{ fontSize: 20 }} />
+              ) : (
+                <DarkModeIcon sx={{ fontSize: 20 }} />
+              )}
+              <Typography variant="body2" sx={{ textTransform: "capitalize" }}>
+                {mode === "dark" ? "Switch to Light" : "Switch to Dark"}
               </Typography>
-              {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
             </Box>
           </ListItemButton>
         </ListItem>
@@ -120,18 +148,82 @@ export default function DrawerAppBar({
               transformOrigin={{ vertical: "top", horizontal: "right" }}
               open={open}
               onClose={handleMenuClose}
+              sx={{
+                "& .MuiPaper-root": {
+                  animation: "slideIn 0.2s ease-out",
+                },
+              }}
+              slotProps={{
+                paper: {
+                  sx: {
+                    mt: 1.5,
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.1)",
+                    borderRadius: 2,
+                  },
+                },
+                transition: {
+                  timeout: 300,
+                },
+              }}
             >
+              {lists.length > 0 && (
+                <MenuItem
+                  disableRipple
+                  sx={{ "&:hover": { backgroundColor: "transparent" } }}
+                >
+                  <FormControl variant="standard" sx={{ minWidth: "100%" }}>
+                    <InputLabel sx={{ color: "inherit" }}>
+                      Select List
+                    </InputLabel>
+                    <Select
+                      value={selected || ""}
+                      label="Select List"
+                      onChange={(e) => setSelected(Number(e.target.value))}
+                      onClick={(e) => e.stopPropagation()}
+                      sx={{
+                        color: "inherit",
+                        "& .MuiSelect-icon": { color: "inherit" },
+                        "& .MuiInput-underline:before": {
+                          borderBottomColor: "rgba(0,0,0,0.2)",
+                        },
+                        "& .MuiInput-underline:hover:before": {
+                          borderBottomColor: "rgba(0,0,0,0.4)",
+                        },
+                      }}
+                    >
+                      {lists.map((list) => (
+                        <MenuItem key={list.id} value={list.id}>
+                          {list.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </MenuItem>
+              )}
+              {lists.length > 0 && <Divider />}
+
               <MenuItem
                 onClick={() => setMode(mode === "dark" ? "light" : "dark")}
               >
-                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    width: "100%",
+                  }}
+                >
+                  {mode === "dark" ? (
+                    <LightModeIcon sx={{ fontSize: 20 }} />
+                  ) : (
+                    <DarkModeIcon sx={{ fontSize: 20 }} />
+                  )}
                   <Typography
-                    variant="body1"
-                    sx={{ textTransform: "lowercase" }}
+                    variant="body2"
+                    sx={{ textTransform: "capitalize" }}
                   >
-                    {mode === "dark" ? "light mode" : "dark mode"}
+                    {mode === "dark" ? "Switch to Light" : "Switch to Dark"}
                   </Typography>
-                  {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
                 </Box>
               </MenuItem>
             </Menu>
@@ -145,7 +237,7 @@ export default function DrawerAppBar({
           open={mobileOpen}
           onClose={handleDrawerToggle}
           ModalProps={{
-            keepMounted: true, // Better open performance on mobile.
+            keepMounted: true,
           }}
           sx={{
             display: { xs: "block", sm: "none" },

@@ -4,13 +4,9 @@ import TodoLists from "./TodoLists";
 import Footer from "./Footer.tsx";
 import "./App.css";
 import { lightThemeOptions, darkThemeOptions } from "./ThemeOptions.tsx";
-import {
-  Box,
-  Container,
-  createTheme,
-  ThemeProvider,
-  Typography,
-} from "@mui/material";
+import { Container, createTheme, ThemeProvider } from "@mui/material";
+
+import { ListProvider } from "./ListContext.tsx";
 
 import ResponsiveAppBar from "./ResponsiveAppBar.tsx";
 
@@ -31,7 +27,7 @@ function App() {
   }, [mode]);
 
   return (
-    <>
+    <ListProvider>
       <ThemeProvider theme={theme}>
         <Container
           maxWidth="lg"
@@ -45,21 +41,13 @@ function App() {
         >
           <CssBaseline />
           <ResponsiveAppBar mode={mode} setMode={setMode} />
-          <Box display="flex" sx={{ margin: 3, alignItems: "center" }}>
-            <Typography variant="body1" sx={{ marginLeft: 3 }}></Typography>
-            {/* <Button
-              onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-              sx={{ margin: 0, padding: 0 }}
-            >
-              {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
-            </Button> */}
-          </Box>
+
           <TodoLists />
           <Footer />
           {/* <TodoList /> */}
         </Container>
       </ThemeProvider>
-    </>
+    </ListProvider>
   );
 }
 

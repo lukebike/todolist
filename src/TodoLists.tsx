@@ -1,61 +1,30 @@
-import { useEffect, useState } from "react";
 import TodoList from "./TodoList";
 import { Box, Button, TextField, Typography } from "@mui/material";
-
-type ListData = {
-  id: number;
-  name: string;
-};
-
-const LISTS_KEY = "todolists-names";
+import { useListContext } from "./ListContext";
 
 export default function TodoLists() {
-  const [lists, setLists] = useState<ListData[]>(() => {
-    const data = localStorage.getItem(LISTS_KEY);
-    return data ? JSON.parse(data) : [{ id: 0, name: "My First List" }];
-  });
-
-  const [selected, setSelected] = useState<number | null>(lists[0].id || null);
-
-  useEffect(() => {
-    localStorage.setItem(LISTS_KEY, JSON.stringify(lists));
-  }, [lists]);
-
-  const [listName, setListName] = useState("");
-
-  const addList = () => {
-    if (!listName) return alert("List name can not be empty");
-    const newId = lists.length;
-    setLists((prev) => [...prev, { id: prev.length, name: listName }]);
-    setSelected(newId);
-    setListName("");
-  };
-
-  const removeList = (id: number) => {
-    localStorage.removeItem(`todos-list-${id}`);
-    setLists((prev) => {
-      return prev.filter((list) => list.id !== id);
-    });
-  };
+  const { lists, selected, listName, setListName, addList, removeList } =
+    useListContext();
 
   return (
     <Box>
       <Box>
-        {!lists.length && (
-          <Typography variant="h4" color="error">
-            no lists found, create a new list.
+        {lists.length === 0 ? (
+          <Typography variant="h4" color="error" textAlign="center">
+            No lists found, create a new list below!
           </Typography>
+        ) : (
+          lists
+            .filter((list) => selected === list.id)
+            .map((list) => (
+              <TodoList
+                key={list.id}
+                listId={list.id}
+                name={list.name}
+                removeList={removeList}
+              />
+            ))
         )}
-        {lists
-          .filter((list) => selected === list.id)
-          .map((list) => (
-            <TodoList
-              key={list.id}
-              listId={list.id}
-              name={list.name}
-              removeList={removeList}
-            />
-          ))}
       </Box>
       <Box sx={{ display: "flex", mt: 2, justifyContent: "center" }}>
         <TextField
