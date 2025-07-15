@@ -82,5 +82,9 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const useListContext = () => {
-  return useContext(ListContext);
+  const context = useContext(ListContext);
+  if (context === undefined) {
+    throw new Error("useListContext must be used within a ListProvider");
+  }
+  return context;
 };
