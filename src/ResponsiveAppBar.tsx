@@ -15,6 +15,8 @@ import Button from "@mui/material/Button";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { useTheme } from "@mui/material/styles";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
+import { Menu, MenuItem } from "@mui/material";
 
 interface ResponsiveAppBarProps {
   mode: "light" | "dark";
@@ -30,29 +32,39 @@ export default function DrawerAppBar({
   setMode,
 }: ResponsiveAppBarProps) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
   const handleDrawerToggle = () => {
     setMobileOpen((prevState) => !prevState);
+  };
+
+  const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
   };
 
   const theme = useTheme();
 
   const drawer = (
-    <Box onClick={handleDrawerToggle} sx={{ textAlign: "center" }}>
+    <Box sx={{ textAlign: "center", width: drawerWidth }}>
       <Typography variant="h6" sx={{ my: 2 }}>
         Planify
       </Typography>
       <Divider />
       <List>
-        <ListItem disablePadding>
+        <ListItem>
           <ListItemButton
-            onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-            sx={{ margin: 0, padding: 0, textAlign: "center" }}
+            onClick={() => {
+              setMode(mode === "dark" ? "light" : "dark");
+              handleDrawerToggle();
+            }}
           >
             <Box
               sx={{
                 display: "flex",
-                alignItems: "center",
                 gap: 1,
                 width: "100%",
                 justifyContent: "center",
@@ -97,15 +109,32 @@ export default function DrawerAppBar({
             Planify
           </Typography>
           <Box sx={{ display: { xs: "none", sm: "flex" } }}>
-            <Typography variant="body1" sx={{ marginLeft: 3 }}>
-              {mode === "dark" ? "light mode" : "dark mode"}
-            </Typography>
-            <Button
-              onClick={() => setMode(mode === "dark" ? "light" : "dark")}
-              sx={{ margin: 0, padding: 0 }}
+            <IconButton size="large" color="inherit" onClick={handleMenuClick}>
+              <MoreVertIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{ vertical: "top", horizontal: "right" }}
+              keepMounted
+              transformOrigin={{ vertical: "top", horizontal: "right" }}
+              open={open}
+              onClose={handleMenuClose}
             >
-              {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
-            </Button>
+              <MenuItem
+                onClick={() => setMode(mode === "dark" ? "light" : "dark")}
+              >
+                <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                  <Typography
+                    variant="body1"
+                    sx={{ textTransform: "lowercase" }}
+                  >
+                    {mode === "dark" ? "light mode" : "dark mode"}
+                  </Typography>
+                  {mode === "dark" ? <LightModeIcon /> : <DarkModeIcon />}
+                </Box>
+              </MenuItem>
+            </Menu>
           </Box>
         </Toolbar>
       </AppBar>

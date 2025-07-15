@@ -15,6 +15,8 @@ export default function TodoLists() {
     return data ? JSON.parse(data) : [{ id: 0, name: "My First List" }];
   });
 
+  const [selected, setSelected] = useState<number | null>(lists[0].id || null);
+
   useEffect(() => {
     localStorage.setItem(LISTS_KEY, JSON.stringify(lists));
   }, [lists]);
@@ -23,8 +25,9 @@ export default function TodoLists() {
 
   const addList = () => {
     if (!listName) return alert("List name can not be empty");
-    if (lists.length === 3) return alert("You can not have more than 3 lists");
+    const newId = lists.length;
     setLists((prev) => [...prev, { id: prev.length, name: listName }]);
+    setSelected(newId);
     setListName("");
   };
 
@@ -43,14 +46,16 @@ export default function TodoLists() {
             no lists found, create a new list.
           </Typography>
         )}
-        {lists.map((list) => (
-          <TodoList
-            key={list.id}
-            listId={list.id}
-            name={list.name}
-            removeList={removeList}
-          />
-        ))}
+        {lists
+          .filter((list) => selected === list.id)
+          .map((list) => (
+            <TodoList
+              key={list.id}
+              listId={list.id}
+              name={list.name}
+              removeList={removeList}
+            />
+          ))}
       </Box>
       <Box sx={{ display: "flex", mt: 2, justifyContent: "center" }}>
         <TextField
