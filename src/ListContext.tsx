@@ -32,7 +32,9 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
     return data ? JSON.parse(data) : [];
   });
 
-  const [selected, setSelected] = useState<number | null>(null);
+  const [selected, setSelected] = useState<number | null>(
+    lists.length > 0 ? lists[0].id : null
+  );
   const [listName, setListName] = useState("");
 
   useEffect(() => {
