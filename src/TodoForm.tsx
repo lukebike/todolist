@@ -1,7 +1,8 @@
 import { IconButton, InputAdornment, ListItem } from "@mui/material";
 import TextField from "@mui/material/TextField";
 import { useState } from "react";
-import CreateIcon from "@mui/icons-material/Create";
+
+import AddIcon from "@mui/icons-material/Add";
 
 type TodoFormProps = {
   addTodo: (todo: string) => void;
@@ -41,7 +42,7 @@ export default function TodoForm({ addTodo }: TodoFormProps) {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton aria-label="create todo" type="submit">
-                    <CreateIcon />
+                    <AddIcon />
                   </IconButton>
                 </InputAdornment>
               ),
