@@ -35,7 +35,7 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
   const [selected, setSelected] = useState<number | null>(
     lists.length > 0 ? lists[0].id : null
   );
-  const [listName, setListName] = useState("");
+  const [listName, setListName] = useState<string>("");
 
   useEffect(() => {
     localStorage.setItem(LISTS_KEY, JSON.stringify(lists));
