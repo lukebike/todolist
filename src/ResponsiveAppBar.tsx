@@ -31,7 +31,7 @@ export default function ResponsiveAppBar({
   mode,
   setMode,
 }: ResponsiveAppBarProps) {
-  const { lists, selected, setSelected } = useListContext();
+  const { lists, setSelected } = useListContext();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
