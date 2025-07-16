@@ -60,21 +60,18 @@ export default function ResponsiveAppBar({
           <ListItem disablePadding sx={{ mb: 1, mt: 2 }}>
             <Box sx={{ width: "100%", px: 2 }}>
               <FormControl fullWidth size="small">
-                <InputLabel>Select List</InputLabel>
-                <Select
-                  value={selected || ""}
-                  label="Select List"
-                  onChange={(e) => {
-                    setSelected(Number(e.target.value));
-                    handleDrawerToggle();
-                  }}
-                >
-                  {lists.map((list) => (
-                    <MenuItem key={list.id} value={list.id}>
-                      {list.name}
-                    </MenuItem>
-                  ))}
-                </Select>
+                {lists.map((list) => (
+                  <MenuItem
+                    key={list.id}
+                    value={list.id}
+                    onClick={(e) => {
+                      setSelected(Number((e.target as HTMLInputElement).value));
+                      handleDrawerToggle();
+                    }}
+                  >
+                    {list.name}
+                  </MenuItem>
+                ))}
               </FormControl>
             </Box>
           </ListItem>
@@ -172,31 +169,19 @@ export default function ResponsiveAppBar({
                   sx={{ "&:hover": { backgroundColor: "transparent" } }}
                 >
                   <FormControl variant="standard" sx={{ minWidth: "100%" }}>
-                    <InputLabel sx={{ color: "inherit" }}>
-                      Select List
-                    </InputLabel>
-                    <Select
-                      value={selected || ""}
-                      label="Select List"
-                      onChange={(e) => setSelected(Number(e.target.value))}
-                      onClick={(e) => e.stopPropagation()}
-                      sx={{
-                        color: "inherit",
-                        "& .MuiSelect-icon": { color: "inherit" },
-                        "& .MuiInput-underline:before": {
-                          borderBottomColor: "rgba(0,0,0,0.2)",
-                        },
-                        "& .MuiInput-underline:hover:before": {
-                          borderBottomColor: "rgba(0,0,0,0.4)",
-                        },
-                      }}
-                    >
-                      {lists.map((list) => (
-                        <MenuItem key={list.id} value={list.id}>
-                          {list.name}
-                        </MenuItem>
-                      ))}
-                    </Select>
+                    {lists.map((list) => (
+                      <MenuItem
+                        key={list.id}
+                        value={list.id}
+                        onClick={(e) =>
+                          setSelected(
+                            Number((e.target as HTMLInputElement).value)
+                          )
+                        }
+                      >
+                        {list.name}
+                      </MenuItem>
+                    ))}
                   </FormControl>
                 </MenuItem>
               )}
