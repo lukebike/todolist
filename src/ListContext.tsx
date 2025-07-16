@@ -29,7 +29,7 @@ const LISTS_KEY = "todolists-names";
 export const ListProvider = ({ children }: { children: ReactNode }) => {
   const [lists, setLists] = useState<ListData[]>(() => {
     const data = localStorage.getItem(LISTS_KEY);
-    return data ? JSON.parse(data) : [];
+    return data ? JSON.parse(data) : [{ id: 0, name: "My First List" }];
   });
 
   const [selected, setSelected] = useState<number | null>(
@@ -38,7 +38,11 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
   const [listName, setListName] = useState<string>("");
 
   useEffect(() => {
-    localStorage.setItem(LISTS_KEY, JSON.stringify(lists));
+    if (lists.length > 0) {
+      localStorage.setItem(LISTS_KEY, JSON.stringify(lists));
+    } else {
+      localStorage.removeItem(LISTS_KEY);
+    }
   }, [lists]);
 
   const addList = () => {
