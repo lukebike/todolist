@@ -18,7 +18,7 @@ type ListContextType = {
   setLists: (lists: ListData[] | ((prev: ListData[]) => ListData[])) => void;
   setSelected: (id: number | null) => void;
   setListName: (name: string) => void;
-  addList: () => void;
+  addList: () => boolean;
   removeList: (id: number) => void;
 };
 
@@ -51,6 +51,7 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
     setLists((prev) => [...prev, { id: prev.length, name: listName }]);
     setSelected(newId);
     setListName("");
+    return true;
   };
 
   const removeList = (id: number) => {

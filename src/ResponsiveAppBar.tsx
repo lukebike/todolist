@@ -13,10 +13,13 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
+import ListIcon from "@mui/icons-material/List";
+import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { FormControl, Menu, MenuItem } from "@mui/material";
 import { useListContext } from "./ListContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 interface ResponsiveAppBarProps {
   mode: "light" | "dark";
@@ -49,6 +52,9 @@ export default function ResponsiveAppBar({
 
   const theme = useTheme();
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const drawer = (
     <Box sx={{ textAlign: "center", width: drawerWidth }}>
       <Typography variant="h6" sx={{ my: 2 }}>
@@ -59,20 +65,19 @@ export default function ResponsiveAppBar({
         {lists.length > 0 && (
           <ListItem disablePadding sx={{ mb: 1, mt: 2 }}>
             <Box sx={{ width: "100%", px: 2 }}>
-              <FormControl fullWidth size="small">
-                {lists.map((list) => (
-                  <MenuItem
-                    key={list.id}
-                    value={list.id}
-                    onClick={(e) => {
-                      setSelected(Number((e.target as HTMLInputElement).value));
-                      handleDrawerToggle();
-                    }}
-                  >
-                    {list.name}
-                  </MenuItem>
-                ))}
-              </FormControl>
+              {lists.map((list) => (
+                <MenuItem
+                  key={list.id}
+                  value={list.id}
+                  onClick={() => {
+                    setSelected(list.id);
+                    navigate("/lists");
+                    handleDrawerToggle();
+                  }}
+                >
+                  {list.name}
+                </MenuItem>
+              ))}
             </Box>
           </ListItem>
         )}
@@ -173,11 +178,11 @@ export default function ResponsiveAppBar({
                       <MenuItem
                         key={list.id}
                         value={list.id}
-                        onClick={(e) =>
-                          setSelected(
-                            Number((e.target as HTMLInputElement).value)
-                          )
-                        }
+                        onClick={() => {
+                          setSelected(list.id);
+                          navigate("/lists");
+                          handleMenuClose();
+                        }}
                       >
                         {list.name}
                       </MenuItem>
@@ -186,9 +191,44 @@ export default function ResponsiveAppBar({
                 </MenuItem>
               )}
               {lists.length > 0 && <Divider />}
-
               <MenuItem
-                onClick={() => setMode(mode === "dark" ? "light" : "dark")}
+                onClick={() => {
+                  if (location.pathname === "/add") {
+                    navigate("/lists");
+                  } else {
+                    navigate("/add");
+                  }
+                  handleMenuClose();
+                }}
+              >
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    width: "100%",
+                  }}
+                >
+                  {location.pathname === "/add" ? (
+                    <ListIcon sx={{ fontSize: 20 }} />
+                  ) : (
+                    <AddIcon sx={{ fontSize: 20 }} />
+                  )}
+                  <Typography
+                    variant="body2"
+                    sx={{ textTransform: "capitalize" }}
+                  >
+                    {location.pathname === "/add"
+                      ? "View Lists"
+                      : "Add New List"}
+                  </Typography>
+                </Box>
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setMode(mode === "dark" ? "light" : "dark");
+                  handleMenuClose();
+                }}
               >
                 <Box
                   sx={{
@@ -211,6 +251,7 @@ export default function ResponsiveAppBar({
                   </Typography>
                 </Box>
               </MenuItem>
+              {}
             </Menu>
           </Box>
         </Toolbar>
