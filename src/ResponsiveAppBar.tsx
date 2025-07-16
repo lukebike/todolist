@@ -15,7 +15,7 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import { useTheme } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { FormControl, InputLabel, Menu, MenuItem, Select } from "@mui/material";
+import { FormControl, Menu, MenuItem } from "@mui/material";
 import { useListContext } from "./ListContext";
 
 interface ResponsiveAppBarProps {
