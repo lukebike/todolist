@@ -46,7 +46,10 @@ export const ListProvider = ({ children }: { children: ReactNode }) => {
   }, [lists]);
 
   const addList = () => {
-    if (!listName) return alert("List name can not be empty");
+    if (!listName) {
+      alert("List name can not be empty");
+      return false;
+    }
     const newId = lists.length;
     setLists((prev) => [...prev, { id: prev.length, name: listName }]);
     setSelected(newId);
