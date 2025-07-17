@@ -46,6 +46,7 @@ function App() {
             <Routes>
               <Route path="/add" element={<TodoListAdd />} />
               <Route path="/lists" element={<TodoLists />} />
+              <Route path="/" element={<TodoLists />} />
             </Routes>
             <Footer />
           </Container>
