@@ -17,7 +17,7 @@ import ListIcon from "@mui/icons-material/List";
 import AddIcon from "@mui/icons-material/Add";
 import { useTheme } from "@mui/material/styles";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import { FormControl, Menu, MenuItem } from "@mui/material";
+import { Menu, MenuItem } from "@mui/material";
 import { useListContext } from "./ListContext";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -66,21 +66,57 @@ export default function ResponsiveAppBar({
           <ListItem disablePadding sx={{ mb: 1, mt: 2 }}>
             <Box sx={{ width: "100%", px: 2 }}>
               {lists.map((list) => (
-                <MenuItem
+                <ListItemButton
                   key={list.id}
-                  value={list.id}
                   onClick={() => {
                     setSelected(list.id);
                     navigate("/lists");
                     handleDrawerToggle();
                   }}
+                  sx={{
+                    borderRadius: 1,
+                    mb: 0.5,
+                    "&:hover": { backgroundColor: "rgba(255,255,255,0.1)" },
+                  }}
                 >
                   {list.name}
-                </MenuItem>
+                </ListItemButton>
               ))}
             </Box>
           </ListItem>
         )}
+        <Divider />
+        <ListItem disablePadding>
+          <ListItemButton
+            onClick={() => {
+              if (location.pathname === "/add") {
+                navigate("/lists");
+              } else {
+                navigate("/add");
+              }
+              handleDrawerToggle();
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                width: "100%",
+                mt: 2,
+              }}
+            >
+              {location.pathname === "/add" ? (
+                <ListIcon sx={{ fontSize: 20 }} />
+              ) : (
+                <AddIcon sx={{ fontSize: 20 }} />
+              )}
+              <Typography variant="body2" sx={{ textTransform: "capitalize" }}>
+                {location.pathname === "/add" ? "View Lists" : "Add New List"}
+              </Typography>
+            </Box>
+          </ListItemButton>
+        </ListItem>
         <ListItem disablePadding>
           <ListItemButton
             onClick={() => {
@@ -168,28 +204,20 @@ export default function ResponsiveAppBar({
                 },
               }}
             >
-              {lists.length > 0 && (
-                <MenuItem
-                  disableRipple
-                  sx={{ "&:hover": { backgroundColor: "transparent" } }}
-                >
-                  <FormControl variant="standard" sx={{ minWidth: "100%" }}>
-                    {lists.map((list) => (
-                      <MenuItem
-                        key={list.id}
-                        value={list.id}
-                        onClick={() => {
-                          setSelected(list.id);
-                          navigate("/lists");
-                          handleMenuClose();
-                        }}
-                      >
-                        {list.name}
-                      </MenuItem>
-                    ))}
-                  </FormControl>
-                </MenuItem>
-              )}
+              {lists.length > 0 &&
+                lists.map((list) => (
+                  <MenuItem
+                    key={list.id}
+                    value={list.id}
+                    onClick={() => {
+                      setSelected(list.id);
+                      navigate("/lists");
+                      handleMenuClose();
+                    }}
+                  >
+                    {list.name}
+                  </MenuItem>
+                ))}
               {lists.length > 0 && <Divider />}
               <MenuItem
                 onClick={() => {
