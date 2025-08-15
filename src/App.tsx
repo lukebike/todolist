@@ -8,6 +8,7 @@ import { lightThemeOptions, darkThemeOptions } from "./ThemeOptions.tsx";
 import { Container, createTheme, ThemeProvider } from "@mui/material";
 import { BrowserRouter, Route, Routes } from "react-router";
 import { ListProvider } from "./ListContext.tsx";
+import "nes.css/css/nes.min.css";
 
 import ResponsiveAppBar from "./ResponsiveAppBar.tsx";
 
